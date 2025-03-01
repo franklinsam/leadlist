@@ -3,13 +3,11 @@
     "builds": [
       {
         "src": "api/index.php",
-        "use": "vercel-php@0.6.1",
+        "use": "vercel-php@0.5.2",
         "config": {
           "php.ini": "vercel.php.ini",
-          "phpVersion": "8.2",
-          "runtime": {
-            "extensions": ["openssl"]
-          }
+          "phpVersion": "8.1",
+          "composerVersion": "2"
         }
       },
       {
@@ -55,6 +53,6 @@
       "SESSION_DRIVER": "cookie",
       "SSR_TEMP_PATH": "/tmp/ssr",
       "NODE_PATH": "node",
-      "LD_LIBRARY_PATH": "/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20220829"
+      "LD_LIBRARY_PATH": "/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20210902"
     }
 }

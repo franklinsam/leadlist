@@ -3,12 +3,11 @@
   "builds": [
     {
       "src": "api/index.php",
-      "use": "vercel-php@0.6.1",
+      "use": "vercel-php@0.5.2",
       "config": {
         "php.ini": "vercel.php.ini",
-        "runtime": {
-          "extensions": ["openssl"]
-        }
+        "phpVersion": "8.1",
+        "composerVersion": "2"
       }
     },
     {
