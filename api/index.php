@@ -1,7 +1,7 @@
 <?php
 
-// Set custom library paths to help find OpenSSL
-putenv('LD_LIBRARY_PATH=/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20210902');
+// Use the bootstrap file to handle OpenSSL issues
+require __DIR__ . '/bootstrap.php';
 
 // Forward Vercel requests to normal index.php
 require __DIR__ . '/../public/index.php'; 

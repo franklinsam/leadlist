@@ -3,10 +3,10 @@
   "builds": [
     {
       "src": "api/index.php",
-      "use": "vercel-php@0.5.2",
+      "use": "vercel-php@0.4.0",
       "config": {
         "php.ini": "vercel.php.ini",
-        "phpVersion": "8.1",
+        "phpVersion": "7.4",
         "composerVersion": "2"
       }
     },
@@ -40,6 +40,6 @@
   "env": {
     "APP_ENV": "production",
     "APP_DEBUG": "false",
-    "LD_LIBRARY_PATH": "/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20220829"
+    "LD_LIBRARY_PATH": "/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20190902"
   }
 } 

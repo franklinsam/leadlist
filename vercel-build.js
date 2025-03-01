@@ -15,6 +15,12 @@ if (!fs.existsSync(staticDir)) {
   fs.mkdirSync(staticDir, { recursive: true });
 }
 
+// Use the Vercel-specific composer.json file
+console.log('Using Vercel-specific composer.json file...');
+if (fs.existsSync('vercel-composer.json')) {
+  fs.copyFileSync('vercel-composer.json', 'composer.json');
+}
+
 // Run composer install
 console.log('Installing PHP dependencies...');
 execSync('composer install --no-dev --optimize-autoloader', { stdio: 'inherit' });
@@ -33,7 +39,19 @@ fs.writeFileSync(
   path.join(functionsDir, 'index.php'),
   `<?php
 // Set custom library paths to help find OpenSSL
-putenv('LD_LIBRARY_PATH=/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20210902');
+putenv('LD_LIBRARY_PATH=/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20190902');
+
+// Disable SSL verification for curl
+if (!defined('CURL_SSLVERSION_TLSv1_2')) {
+    define('CURL_SSLVERSION_TLSv1_2', 6);
+}
+
+// Set default curl options
+$defaultCurlOptions = [
+    CURLOPT_SSL_VERIFYPEER => false,
+    CURLOPT_SSL_VERIFYHOST => 0,
+    CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1_2
+];
 
 // Forward Vercel requests to normal index.php
 require __DIR__ . '/../../../../public/index.php';`
@@ -44,14 +62,14 @@ console.log('Creating VC config...');
 fs.writeFileSync(
   path.join(functionsDir, '.vc-config.json'),
   JSON.stringify({
-    runtime: 'vercel-php@0.5.2',
+    runtime: 'vercel-php@0.4.0',
     handler: 'index.php',
     launcherType: 'Nodejs',
     regions: ['all'],
     memory: 1024,
     maxDuration: 60,
     environment: {
-      LD_LIBRARY_PATH: '/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20210902'
+      LD_LIBRARY_PATH: '/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20190902'
     }
   }, null, 2)
 );
@@ -72,7 +90,7 @@ fs.writeFileSync(
     env: {
       APP_ENV: 'production',
       APP_DEBUG: 'false',
-      LD_LIBRARY_PATH: '/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20210902'
+      LD_LIBRARY_PATH: '/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20190902'
     }
   }, null, 2)
 );
