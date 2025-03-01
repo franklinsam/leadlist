@@ -1,4 +1,3 @@
-/vendor
 /node_modules
 /.git
 /.github
@@ -8,4 +7,5 @@
 !/.env.example
 /.phpunit.cache
 /docker
-/tests 
+/tests
+/vendor 

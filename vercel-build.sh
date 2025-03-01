@@ -1,33 +1,47 @@
 #!/bin/bash
 
-# Install PHP dependencies with optimized autoloader
-composer install --no-dev --optimize-autoloader
+# Exit on error
+set -e
 
-# Clear any cached configurations
-php artisan config:clear
-php artisan cache:clear
-php artisan view:clear
-php artisan route:clear
+echo "Starting Vercel build process..."
 
-# Regenerate autoload files
-composer dump-autoload -o
-
-# Install Node.js dependencies
-npm ci
-
-# Build frontend assets
-npm run build
-
-# Create the dist directory
-mkdir -p dist
-
-# Copy the public directory to dist
-cp -r public/* dist/
-
-# Ensure the api directory exists
+# Create the api directory if it doesn't exist
 mkdir -p api
 
-# Create a symbolic link for storage
-php artisan storage:link
+# Create a simple index.php file in the api directory
+cat > api/index.php << 'EOL'
+<?php
+// Forward Vercel requests to normal index.php
+require __DIR__ . '/../public/index.php';
+EOL
+
+# Copy the production environment file
+echo "Setting up environment..."
+cp .env.production .env
+
+# Install Composer dependencies
+echo "Installing Composer dependencies..."
+composer install --no-dev --optimize-autoloader
+
+# Generate application key if not set
+if [ -z "$APP_KEY" ]; then
+    echo "Generating application key..."
+    php artisan key:generate --force
+fi
+
+# Cache configuration
+echo "Caching configuration..."
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Build frontend assets
+echo "Building frontend assets..."
+npm ci
+npm run build
+
+# Create storage link
+echo "Creating storage link..."
+php artisan storage:link || true
 
 echo "Build completed successfully!"

@@ -1,9 +1,9 @@
 {
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.4.0",
-      "includeFiles": "**",
-      "excludeFiles": "{/vendor/**,/node_modules/**,/.git/**,/tests/**,/storage/logs/**}"
+      "runtime": "@vercel/php@0.4.0",
+      "memory": 1024,
+      "maxDuration": 60
     }
   }
 } 
