@@ -40,8 +40,4 @@ echo "Building frontend assets..."
 npm ci
 npm run build
 
-# Create storage link
-echo "Creating storage link..."
-php artisan storage:link || true
-
 echo "Build completed successfully!"
