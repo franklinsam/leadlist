@@ -1,7 +1,16 @@
 #!/bin/bash
 
-# Install PHP dependencies
+# Install PHP dependencies with optimized autoloader
 composer install --no-dev --optimize-autoloader
+
+# Clear any cached configurations
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+php artisan route:clear
+
+# Regenerate autoload files
+composer dump-autoload -o
 
 # Install Node.js dependencies
 npm ci

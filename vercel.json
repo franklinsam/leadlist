@@ -2,17 +2,38 @@
     "version": 2,
     "builds": [
       {
-        "src": "public/index.php",
-        "use": "@vercel/php"
+        "src": "api/index.php",
+        "use": "vercel-php@0.6.0"
+      },
+      {
+        "src": "public/**",
+        "use": "@vercel/static"
       }
     ],
     "routes": [
       {
+        "src": "/build/(.*)",
+        "dest": "/public/build/$1"
+      },
+      {
+        "src": "/favicon.ico",
+        "dest": "/public/favicon.ico"
+      },
+      {
+        "src": "/robots.txt",
+        "dest": "/public/robots.txt"
+      },
+      {
+        "src": "/(css|js|images|fonts|vendor|storage)/(.*)",
+        "dest": "/public/$1/$2"
+      },
+      {
         "src": "/(.*)",
-        "dest": "public/index.php"
+        "dest": "/api/index.php"
       }
     ],
     "env": {
+      "APP_NAME": "Laravel",
       "APP_ENV": "production",
       "APP_DEBUG": "false",
       "APP_URL": "https://your-vercel-app-url.vercel.app",
@@ -28,4 +49,4 @@
       "SSR_TEMP_PATH": "/tmp/ssr",
       "NODE_PATH": "node"
     }
-  }
+}
