@@ -6,6 +6,7 @@
         "use": "vercel-php@0.6.1",
         "config": {
           "php.ini": "vercel.php.ini",
+          "phpVersion": "8.2",
           "runtime": {
             "extensions": ["openssl"]
           }
