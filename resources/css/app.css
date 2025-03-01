@@ -1,0 +1,5 @@
+/* Custom styles */
+.table th { white-space: nowrap; }
+.btn-group { white-space: nowrap; }
+
+/* We're using Bootstrap and Font Awesome from CDN in the layout file */
