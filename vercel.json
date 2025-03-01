@@ -3,7 +3,13 @@
     "builds": [
       {
         "src": "api/index.php",
-        "use": "vercel-php@0.6.0"
+        "use": "vercel-php@0.6.1",
+        "config": {
+          "php.ini": "vercel.php.ini",
+          "runtime": {
+            "extensions": ["openssl"]
+          }
+        }
       },
       {
         "src": "public/**",
@@ -47,6 +53,7 @@
       "LOG_CHANNEL": "stderr",
       "SESSION_DRIVER": "cookie",
       "SSR_TEMP_PATH": "/tmp/ssr",
-      "NODE_PATH": "node"
+      "NODE_PATH": "node",
+      "LD_LIBRARY_PATH": "/var/task/lib:/var/task/lib/php/extensions/no-debug-non-zts-20220829"
     }
 }
